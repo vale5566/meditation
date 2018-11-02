@@ -1,24 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Image, TimePickerAndroid } from 'react-native';
 
 class SessionScreen extends React.Component {
   timepicker() {
-try {
-  const {action, hour, minute} = await TimePickerAndroid.open({
-    hour: 14,
-    minute: 0,
-    is24Hour: false, // Will display '2 PM'
-  });
-  if (action !== TimePickerAndroid.dismissedAction) {
-    // Selected hour (0-23), minute (0-59)
-  }
-} catch ({code, message}) {
-  console.warn('Cannot open time picker', message);
-}
+    TimePickerAndroid.open({
+        hour: 12,
+        minute: 0
+      }).then(({action, hour, minute}) => {
+        if (action !== TimePickerAndroid.dismissedAction) {
+         // handles the `hour` and `minute`
+         console.log(hour, minute);
+        }
+      }).catch(() => {
+         console.warn('Cannot open time picker. Please try it again.');
+      });
   }
 
   render() {
-    return <Button onPress={timepicker()}>lul</Button>
+    return <Button onPress={this.timepicker} title="asdf"/>
   }
 }
 
