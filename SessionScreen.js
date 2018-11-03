@@ -9,9 +9,9 @@ import {
   TextInput,
   ScrollView
 } from "react-native";
-import DatePicker from "react-native-datepicker";
 import { createStackNavigator } from "react-navigation";
 import MediationScreen from "./MediationScreen.js";
+import MyButton from "./MyButton.js";
 
 import InputText from "./InputText.js";
 
@@ -21,34 +21,6 @@ export function MinutesToDuration(str) {
   sec = parseInt(array[1]);
   total = sec + min;
   return total;
-}
-
-class MyButton extends React.Component {
-  render() {
-    return (
-      <View
-        style={{
-          margin: 90
-        }}
-      >
-        <TouchableOpacity onPress={this.props.onPress}>
-          <View
-            style={{
-              padding: 20,
-              backgroundColor: "#1C9C7C",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 20
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 30 }}>
-              {this.props.title}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  }
 }
 
 class SessionScreen extends React.Component {
@@ -140,20 +112,9 @@ class SessionScreen extends React.Component {
       this["gong_period_timer"] = setInterval(onGong, gong_period * 1000);
     }, warm_up * 1000);
 
-    this.props.navigation.navigate("Mediation");
-
-    // this.setState({ secondsRemaining: newSecondsRemaining });
-    //
-    // this.interval = setInterval(() => {
-    //   if (this.state.secondsRemaining == 0) {
-    //     clearInterval(this.interval);
-    //     //run what happened when timer stops
-    //     return;
-    //   }
-    //   console.log(this.state.secondsRemaining + " of " + newSecondsRemaining);
-    //
-    //   this.setState({ secondsRemaining: this.state.secondsRemaining - 1 });
-    // }, 1000);
+    this.props.navigation.navigate("Mediation", {
+      onStopPress: this.onStopPress
+    });
   }
 
   render() {
@@ -183,30 +144,34 @@ class SessionScreen extends React.Component {
           width: "100%"
         }}
       >
-        <ScrollView contentContainerStyle={{ paddingBottom: 300 }}>
-          <Text style={styles.text}>New Session</Text>
-          {types.map(type => {
-            return (
-              <View key={type.key}>
-                <Text style={[styles.text1]}>{type.name}</Text>
-                <InputText
-                  placeholder={type.placeholder}
-                  onChange={seconds => {
-                    this.setState({ [type.key]: seconds });
-                  }}
-                />
-              </View>
-            );
-          })}
-          <Text>{JSON.stringify(this.state, null, 2)}</Text>
+        <View style={{ alignItems: "center" }}>
+          <View style={[styles.lineStyle, { top: 220 }]} />
+        </View>
+        <View style={{ alignItems: "center" }}>
+          <View style={[styles.lineStyle, { top: 380 }]} />
+        </View>
 
-          <Image
-            style={styles.sandclock}
-            source={require("./assets/sandclock.png")}
-          />
-          <Image style={styles.clock} source={require("./assets/clock.png")} />
-          <Image style={styles.bell} source={require("./assets/bell.png")} />
-        </ScrollView>
+        <Text style={styles.text}>New Session</Text>
+        {types.map(type => {
+          return (
+            <View key={type.key}>
+              <Text style={[styles.text1]}>{type.name}</Text>
+              <InputText
+                placeholder={type.placeholder}
+                onChange={seconds => {
+                  this.setState({ [type.key]: seconds });
+                }}
+              />
+            </View>
+          );
+        })}
+
+        <Image
+          style={styles.sandclock}
+          source={require("./assets/sandclock.png")}
+        />
+        <Image style={styles.clock} source={require("./assets/clock.png")} />
+        <Image style={styles.bell} source={require("./assets/bell.png")} />
 
         {/*here start the Button*/}
         <View style={styles.bottom}>
@@ -229,37 +194,6 @@ class SessionScreen extends React.Component {
     );
   }
 }
-
-/*
-<Text style={styles.text}>New Session</Text>
-<Text style={[styles.text1, { marginTop: 40 }]}>Warm-Up</Text>
-<TextInput
-  placeholder="00:30"
-  underlineColorAndroid="transparent"
-  style={{ height: 40, margin: 40 }}
-  value={this.state.textWarmUp}
-  onChangeText={this.fixText}
-  keyboardType="numeric"
-/>
-<Text style={[styles.text1]}>Session Time</Text>
-<TextInput
-  placeholder="15:00"
-  underlineColorAndroid="transparent"
-  style={{ height: 40, margin: 40 }}navigation bar
-  value={this.state.textSessionTime}
-  onChangeText={this.fixText}
-  keyboardType="numeric"
-/>
-<Text style={[styles.text1]}>Gong Period</Text>
-<TextInput
-  placeholder="01:00"
-  underlineColorAndroid="transparent"
-  style={{ height: 40, margin: 40 }}
-  value={this.state.textGongPeriod}
-  onChangeText={this.fixText}
-  keyboardType="numeric"
-/>
-*/
 
 const styles = StyleSheet.create({
   bottom: {
@@ -298,6 +232,11 @@ const styles = StyleSheet.create({
     height: 24,
     left: 80,
     top: 485
+  },
+  lineStyle: {
+    borderWidth: 2,
+    borderColor: "#1B4C3E",
+    width: 200
   }
 });
 
