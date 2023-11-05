@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { Image, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Constants } from "expo";
 import { createStackNavigator } from "react-navigation";
 import KeepAwake from "react-native-keep-awake";
 import MyButton from "./MyButton.js";
+import { Video } from "expo";
+
+const vid = require("./assets/meditate.mp4");
 
 export default class MediationScreen extends Component {
   static navigationOptions = {
@@ -23,12 +26,31 @@ export default class MediationScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          source={require("./assets/meditate.gif")}
-          style={{ width: 500, height: 700, position: "absolute" }}
+        <View style={{ backgroundColor: "#CDE6DD", height: 40 }} />
+        <Video
+          source={vid}
+          resizeMode="cover"
+          shouldPlay
+          isLooping
+          style={{
+            width: 400,
+            height: 900,
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1
+          }}
         />
         <MyButton
-          styles={styles.button}
+          styles={[
+            styles.button,
+            {
+              zIndex: 10,
+              position: "absolute",
+              bottom: 10,
+              left: 10,
+              right: 10
+            }
+          ]}
           title="Stopp"
           onPress={this.onStopPress}
         />
@@ -39,10 +61,8 @@ export default class MediationScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: "#000"
+    backgroundColor: "#CDE6DD",
+    height: "100%",
+    width: "100%"
   }
 });

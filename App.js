@@ -15,6 +15,7 @@ class MyButton extends React.Component {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
+        <View style={{ backgroundColor: "#CDE6DD", height: 40 }} />
         <View
           style={{
             margin: 50,
@@ -107,7 +108,8 @@ const RootStack = createStackNavigator(
     Mediation: MediationScreen
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "Home",
+    headerMode: "none"
   }
 );
 export default RootStack;

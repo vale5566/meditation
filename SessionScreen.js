@@ -144,6 +144,7 @@ class SessionScreen extends React.Component {
           width: "100%"
         }}
       >
+        <View style={{ backgroundColor: "#CDE6DD", height: 40 }} />
         <View style={{ alignItems: "center" }}>
           <View style={[styles.lineStyle, { top: 220 }]} />
         </View>
